@@ -11,8 +11,8 @@
       <b-collapse is-nav id="nav_collapse">
 
         <b-navbar-nav>
-          <b-nav-item href="#">Lista de heróis</b-nav-item>
-          <b-nav-item href="#">Sobre</b-nav-item>
+          <b-nav-item to="/heroes">Lista de heróis</b-nav-item>
+          <b-nav-item to="/about">Sobre</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">

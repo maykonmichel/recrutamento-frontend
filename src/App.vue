@@ -1,7 +1,13 @@
 <template>
   <div id="app">
     <Navbar/>
-    <router-view/>
+
+    <b-container>
+      <b-jumbotron header="Listagem de heróis" bg-variant="white">
+        <hr class="my-4">
+        <router-view/>
+      </b-jumbotron>
+    </b-container>
   </div>
 </template>
 
