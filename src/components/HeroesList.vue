@@ -10,10 +10,7 @@
                 img-top
                 style="max-width: 14rem;"
                 class="mb-5">
-          <p class="card-text">
-            {{ hero.id }}
-          </p>
-          <b-button v-bind:href="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
+          <b-button :to="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
         </b-card>
       </div>
     </b-card-group>
@@ -50,6 +47,7 @@
       }
     },
     created: function () {
+      this.$emit('update:title', 'Lista de heróis');
       this.total = 0;
       this.currentPage = 1;
       this.updateSource();

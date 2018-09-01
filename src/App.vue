@@ -3,9 +3,9 @@
     <Navbar/>
 
     <b-container>
-      <b-jumbotron header="Listagem de heróis" bg-variant="white">
+      <b-jumbotron :header="title" bg-variant="white">
         <hr class="my-4">
-        <router-view/>
+        <router-view v-on:update:title="title=$event"/>
       </b-jumbotron>
     </b-container>
   </div>
@@ -16,7 +16,12 @@
 
   export default {
     name: 'App',
-    components: {Navbar}
+    components: {Navbar},
+    data() {
+      return {
+        title: '',
+      }
+    },
   }
 </script>
 
