@@ -1,7 +1,7 @@
 {
-  "name": "webpack",
+  "name": "marvel-heroes",
   "version": "1.0.0",
-  "description": "A Vue.js project",
+  "description": "Desafio de recrutamento frontend ez.devs",
   "author": "Maykon Michel <maykonmichelpalma@gmail.com>",
   "private": true,
   "scripts": {
