@@ -4,11 +4,9 @@
           border-variant="danger"
           img-alt="Image"
           img-top
-          tag="article"
-          style="max-width: 20rem;"
-          class="mb-2">
+          style="max-width: 14rem;"
+          class="mb-5">
     <p class="card-text">
-      {{ hero.description }}
     </p>
     <b-button href="#" variant="danger">Mais detalhes</b-button>
   </b-card>
@@ -22,5 +20,12 @@
 </script>
 
 <style scoped>
+  .card-img-top {
+    width: 222px;
+    height: 222px;
+  }
 
+  .card-title {
+    height: 2em;
+  }
 </style>
