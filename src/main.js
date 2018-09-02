@@ -5,12 +5,18 @@ import App from './App'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import VueResource from 'vue-resource'
+import VueInsProgressBar from 'vue-ins-progress-bar'
 
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 Vue.use(BootstrapVue);
 Vue.use(VueResource);
+Vue.use(VueInsProgressBar, {
+  position: 'fixed',
+  show: true,
+  height: '5px'
+});
 
 Vue.config.productionTip = false;
 

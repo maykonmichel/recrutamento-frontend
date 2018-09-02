@@ -53,7 +53,10 @@
        this.name = this.$route.query.name;
       }
     },
-    created: function () {
+    mounted() {
+      this.$insProgress.finish()
+    },
+    created() {
       this.name = this.$route.query.name;
     }
   }

@@ -6,6 +6,7 @@
       <b-jumbotron :header="title" bg-variant="white">
         <hr class="my-4">
         <router-view v-on:update:title="title=$event"/>
+        <vue-ins-progress-bar></vue-ins-progress-bar>
       </b-jumbotron>
     </b-container>
   </div>
@@ -22,6 +23,21 @@
         title: '',
       }
     },
+    mounted() {
+      this.$insProgress.finish()
+    },
+    created() {
+      this.$insProgress.start()
+
+      this.$router.beforeEach((to, from, next) => {
+        this.$insProgress.start()
+        next()
+      })
+
+      this.$router.afterEach((to, from) => {
+        this.$insProgress.finish()
+      })
+    }
   }
 </script>
 
