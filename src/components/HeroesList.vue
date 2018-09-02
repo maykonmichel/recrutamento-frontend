@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40"/>
+    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40" v-if="total"/>
     <b-card-group deck>
       <div v-for="hero of heroes">
         <b-card v-bind:title="hero.name"
@@ -14,7 +14,8 @@
         </b-card>
       </div>
     </b-card-group>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40"/>
+    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40" v-if="total"/>
+
   </div>
 </template>
 
@@ -25,16 +26,17 @@
       return {
         heroes: [],
         total: 0,
-        currentPage: 1
+        currentPage: 1,
+        search: '',
       }
     },
     methods: {
-      updateSource: function () {
+      updateSource: function (option='') {
         this.apikey = '8b3f26486f67848fe413d5b2b415ca8d';
         this.ts = Math.round(+new Date() / 1000);
         this.hash = require('crypto').createHash('md5').update(this.ts + '8345a9ee9ac5194be045ce7465537cb0d43146a3' + this.apikey).digest('hex');
-        this.$http.get('https://gateway.marvel.com/v1/public/characters?apikey=' + this.apikey +
-          '&ts=' + this.ts + '&hash=' + this.hash + "&limit=40&offset=" + (this.currentPage-1) * 40)
+        this.$http.get('https://gateway.marvel.com/v1/public/characters?apikey=' + this.apikey + '&ts=' + this.ts + '&hash=' + this.hash +
+          "&limit=40&offset=" + (this.currentPage-1)*40 + option)
           .then(response => {
             this.total = response.data.data.total;
             this.heroes = response.data.data.results;
@@ -44,13 +46,16 @@
     watch: {
       currentPage: function () {
         this.updateSource();
+      },
+      '$route.query.name'() {
+        this.updateSource(this.$route.query.name ? '&name=' + this.$route.query.name : '');
       }
     },
     created: function () {
       this.$emit('update:title', 'Lista de heróis');
       this.total = 0;
       this.currentPage = 1;
-      this.updateSource();
+      this.updateSource(this.$route.query.name ? '&name=' + this.$route.query.name : '');
     }
   }
 </script>
