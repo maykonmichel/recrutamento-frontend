@@ -82,14 +82,6 @@
 </script>
 
 <style scoped>
-  .card-img-top{
-    position: relative;
-    width: 100%;
-  }
-  .card-img-top:before{
-    padding-top: 100%;
-  }
-
   .card-title {
     height: 2em;
   }

@@ -1,12 +1,10 @@
 <template>
   <div>
-    <b-card>
-      <b-media>
-        <b-img slot="aside" v-bind:src="hero.thumbnail.path+'.'+hero.thumbnail.extension" width="222px" height="222px"/>
-        <h5 class="mt-0">{{ hero.name }}</h5>
-        <p>{{ hero.description }}</p>
-      </b-media>
-    </b-card>
+    <div class="row">
+      <b-img :src="hero.thumbnail.path+'.'+hero.thumbnail.extension" :img-alt="hero.name+'\'s image'" class="col-md-3"
+             width="100%" height="250"/>
+      <p class="col-md-9 mt-1 px-3">{{ hero.description }}</p>
+    </div>
     <hr class="my-4">
     <b-button size="lg" variant="danger" v-on:click="goBack()">Voltar</b-button>
   </div>
@@ -17,7 +15,13 @@
     name: "Hero",
     data() {
       return {
-        hero: []
+        hero: {
+          thumbnail: {
+            path: '/static/loading-icon',
+            extension: 'gif'
+          },
+          description: 'Loading...'
+        }
       }
     },
     methods: {
@@ -29,16 +33,17 @@
           '&ts=' + this.ts + '&hash=' + this.hash)
           .then(response => {
             this.hero = response.data.data.results[0];
+            this.$emit('update:title', this.hero.name);
           });
       },
-      goBack () {
+      goBack() {
         window.history.length > 1
           ? this.$router.go(-1)
           : this.$router.push('/')
       }
     },
     created: function () {
-      this.$emit('update:title', '');
+      this.$emit('update:title', 'Loading...');
       this.updateSource();
     }
   }
