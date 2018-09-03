@@ -15,21 +15,27 @@
              @dismissed="showDismissibleAlert=false">
       Nenhum herói encontrado.
     </b-alert>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
-    <b-card-group deck>
-      <div v-for="hero of heroes" :key="hero.id" class="col-md-3">
-        <b-card :title="hero.name"
-                :img-src="hero.thumbnail.path+'.'+hero.thumbnail.extension"
-                :img-alt="hero.name+'\'s image'"
-                border-variant="danger"
-                img-alt="Image"
-                img-top
-                class="mb-5">
-          <b-button :to="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
-        </b-card>
-      </div>
-    </b-card-group>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
+    <div class="container" align="center" v-if="total==-1">
+      <img src="/static/loading-icon.gif" alt="Carregando heróis">
+      <b-alert show class="col-md-5">Carregando heróis</b-alert>
+    </div>
+    <div v-else>
+      <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
+      <b-card-group deck>
+        <div v-for="hero of heroes" :key="hero.id" class="col-md-3">
+          <b-card :title="hero.name"
+                  :img-src="hero.thumbnail.path+'.'+hero.thumbnail.extension"
+                  :img-alt="hero.name+'\'s image'"
+                  border-variant="danger"
+                  img-alt="Image"
+                  img-top
+                  class="mb-5">
+            <b-button :to="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
+          </b-card>
+        </div>
+      </b-card-group>
+      <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
+    </div>
 
   </div>
 </template>
@@ -67,6 +73,8 @@
     },
     watch: {
       currentPage: function () {
+        this.dismissCountDown = 0;
+        this.total = -1;
         this.updateSource();
       },
       '$route.query.name'() {
