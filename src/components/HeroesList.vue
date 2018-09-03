@@ -6,7 +6,7 @@
              variant="info"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged">
-      {{ total }} heróis encontrados(40/pagina).
+      {{ total }} heróis encontrados (20/pagina)
     </b-alert>
     <b-alert variant="danger"
              dismissible
@@ -15,21 +15,21 @@
              @dismissed="showDismissibleAlert=false">
       Nenhum herói encontrado.
     </b-alert>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40" v-if="total>40"/>
+    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
     <b-card-group deck>
-      <div v-for="hero of heroes" :key="hero.id">
-        <b-card v-bind:title="hero.name"
-                v-bind:img-src="hero.thumbnail.path+'.'+hero.thumbnail.extension"
+      <div v-for="hero of heroes" :key="hero.id" class="col-md-3">
+        <b-card :title="hero.name"
+                :img-src="hero.thumbnail.path+'.'+hero.thumbnail.extension"
+                :img-alt="hero.name+'\'s image'"
                 border-variant="danger"
                 img-alt="Image"
                 img-top
-                style="max-width: 14rem;"
                 class="mb-5">
           <b-button :to="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
         </b-card>
       </div>
     </b-card-group>
-    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="40" v-if="total>40"/>
+    <b-pagination align="center" v-bind:total-rows="total" v-model="currentPage" :per-page="20" v-if="total>20"/>
 
   </div>
 </template>
@@ -53,7 +53,7 @@
         this.ts = Math.round(+new Date() / 1000);
         this.hash = require('crypto').createHash('md5').update(this.ts + '8345a9ee9ac5194be045ce7465537cb0d43146a3' + this.apikey).digest('hex');
         this.$http.get('https://gateway.marvel.com/v1/public/characters?apikey=' + this.apikey + '&ts=' + this.ts + '&hash=' + this.hash +
-          "&limit=40&offset=" + (this.currentPage - 1) * 40 + option)
+          "&offset=" + (this.currentPage - 1) * 20 + option)
           .then(response => {
             this.total = response.data.data.total;
             this.dismissCountDown = this.total ? 3 : 0;
@@ -82,9 +82,12 @@
 </script>
 
 <style scoped>
-  .card-img-top {
-    width: 222px;
-    height: 222px;
+  .card-img-top{
+    position: relative;
+    width: 100%;
+  }
+  .card-img-top:before{
+    padding-top: 100%;
   }
 
   .card-title {
