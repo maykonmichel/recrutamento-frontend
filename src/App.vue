@@ -45,4 +45,8 @@
   #app {
     font-family: American Captain;
   }
+
+  .display-3 {
+    font-size: 3.5em;
+  }
 </style>

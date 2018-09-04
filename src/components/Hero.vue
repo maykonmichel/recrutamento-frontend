@@ -2,7 +2,7 @@
   <div>
     <div class="row" v-if="code===200">
       <b-img :src="hero.thumbnail.path+'.'+hero.thumbnail.extension" :img-alt="hero.name+'\'s image'" class="col-md-3"
-             width="100%" height="250"/>
+             width="100%" height="300"/>
       <p class="col-md-9 mt-1 px-3">{{ hero.description }}</p>
     </div>
     <div class="container" align="center" v-else-if="code===206">

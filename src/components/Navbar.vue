@@ -14,7 +14,6 @@
 
         <b-navbar-nav>
           <b-nav-item :to="{name: 'Heroes', query: {page: '1'}}">Lista de heróis</b-nav-item>
-          <b-nav-item to="/about">Sobre</b-nav-item>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
