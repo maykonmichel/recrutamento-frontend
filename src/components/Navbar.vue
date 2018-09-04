@@ -13,7 +13,7 @@
       <b-collapse is-nav id="nav_collapse">
 
         <b-navbar-nav>
-          <b-nav-item to="/heroes">Lista de heróis</b-nav-item>
+          <b-nav-item :to="{name: 'Heroes', query: {page: '1'}}">Lista de heróis</b-nav-item>
           <b-nav-item to="/about">Sobre</b-nav-item>
         </b-navbar-nav>
 
@@ -43,14 +43,21 @@
       onSubmit(evt) {
         evt.preventDefault();
         if (this.name) {
-          this.$router.push("/heroes?name=" + this.name);
+          if (this.$route.name === 'Heroes') {
+            this.$router.push({query: Object.assign({}, this.$route.query, {name: this.name})});
+          }
+          else {
+            this.$router.push({name: 'Heroes', query: {name: this.name, page: '1'}});
+          }
         }
         else {
-          this.$router.push("/heroes");
+          this.$router.push({name: 'Heroes', query: {page: '1'}});
         }
-      },
+      }
+    },
+    watch: {
       '$route.query.name'() {
-       this.name = this.$route.query.name;
+        this.name = this.$route.query.name;
       }
     },
     mounted() {
