@@ -6,7 +6,7 @@
              variant="info"
              @dismissed="dismissCountDown=0"
              @dismiss-count-down="countDownChanged">
-      {{ total }} heróis encontrados (20/pagina)
+      {{ total }} heróis encontrados <span v-if="total>20">(20/pagina)</span>
     </b-alert>
     <b-alert variant="danger"
              dismissible
@@ -30,7 +30,7 @@
                   img-alt="Image"
                   img-top
                   class="mb-5">
-            <b-button :to="'/heroes/'+hero.id" variant="danger">Mais detalhes</b-button>
+            <b-button :to="{ name: 'Hero', params: { id: hero.id }}" variant="danger">Mais detalhes</b-button>
           </b-card>
         </div>
       </b-card-group>
@@ -53,13 +53,15 @@
       }
     },
     methods: {
-      updateSource: function (option = '') {
-        this.$insProgress.start()
+      updateSource: function () {
+        this.$insProgress.start();
+        this.dismissCountDown = 0;
+        this.total = -1;
         this.apikey = '8b3f26486f67848fe413d5b2b415ca8d';
         this.ts = Math.round(+new Date() / 1000);
         this.hash = require('crypto').createHash('md5').update(this.ts + '8345a9ee9ac5194be045ce7465537cb0d43146a3' + this.apikey).digest('hex');
         this.$http.get('https://gateway.marvel.com/v1/public/characters?apikey=' + this.apikey + '&ts=' + this.ts + '&hash=' + this.hash +
-          "&offset=" + (this.currentPage - 1) * 20 + option)
+          "&offset=" + (this.currentPage - 1) * 20 + (this.$route.query.name ? '&name=' + this.$route.query.name : ''))
           .then(response => {
             this.total = response.data.data.total;
             this.dismissCountDown = this.total ? 3 : 0;
@@ -72,19 +74,30 @@
       }
     },
     watch: {
-      currentPage: function () {
-        this.dismissCountDown = 0;
-        this.total = -1;
+      currentPage() {
+        if(isNaN(this.currentPage)) this.currentPage = 1
+        if (parseInt(this.$route.query.page) !== this.currentPage) {
+          this.$router.replace({name: 'Heroes', query: {page: this.currentPage.toString()}});
+        }
+      },
+      '$route.query.page'() {
+        if (!this.$route.query.page || parseInt(this.$route.query.page) < 1) {
+          this.currentPage = 1;
+        }
+        if (parseInt(this.$route.query.page) !== this.currentPage) {
+          this.currentPage = parseInt(this.$route.query.page);
+        }
         this.updateSource();
       },
       '$route.query.name'() {
-        this.updateSource(this.$route.query.name ? '&name=' + this.$route.query.name : '');
+        this.updateSource();
       }
     },
     created: function () {
       this.$emit('update:title', 'Lista de heróis');
-      this.currentPage = 1;
-      this.updateSource(this.$route.query.name ? '&name=' + this.$route.query.name : '');
+      if (!this.$route.query.page || parseInt(this.$route.query.page) < 1) this.currentPage = 1;
+      else if (parseInt(this.$route.query.page) !== this.currentPage) this.currentPage = parseInt(this.$route.query.page);
+      this.updateSource();
     }
   }
 </script>
