@@ -42,12 +42,7 @@
       onSubmit(evt) {
         evt.preventDefault();
         if (this.name) {
-          if (this.$route.name === 'Heroes') {
-            this.$router.push({query: Object.assign({}, this.$route.query, {name: this.name})});
-          }
-          else {
-            this.$router.push({name: 'Heroes', query: {name: this.name, page: '1'}});
-          }
+          this.$router.push({name: 'Heroes', query: {name: this.name, page: '1'}});
         }
         else {
           this.$router.push({name: 'Heroes', query: {page: '1'}});
