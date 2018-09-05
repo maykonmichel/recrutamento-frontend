@@ -61,7 +61,7 @@
         this.ts = Math.round(+new Date() / 1000);
         this.hash = require('crypto').createHash('md5').update(this.ts + '8345a9ee9ac5194be045ce7465537cb0d43146a3' + this.apikey).digest('hex');
         this.$http.get('https://gateway.marvel.com/v1/public/characters?apikey=' + this.apikey + '&ts=' + this.ts + '&hash=' + this.hash +
-          "&offset=" + (this.currentPage - 1) * 20 + (this.$route.query.name ? '&nameStartsWith=' + this.$route.query.name : ''))
+          "&offset=" + (this.currentPage - 1) * 20 + (this.$route.query.name ? '&name=' + this.$route.query.name : ''))
           .then(response => {
             this.total = response.data.data.total;
             this.dismissCountDown = this.total ? 3 : 0;
